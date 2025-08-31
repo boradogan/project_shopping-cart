@@ -6,10 +6,6 @@
   box-sizing: border-box;
 }
 
-.card {
-  padding: 2em;
-}
-
 .read-the-docs {
   color: #888;
 }
@@ -125,4 +121,18 @@ img {
 }
 #shop-page.sidebar-closed{
   grid-template-columns: 50px 1fr;
+}
+
+.card-grid-container{
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+.card{
+  width: 100%;
+  aspect-ratio: 2/3;
+  padding: 20px;
+  box-sizing:border-box;
+  background-color: #d6d6d6;
+  border-radius: 20px;
 }
