@@ -135,4 +135,23 @@ img {
   box-sizing:border-box;
   background-color: #d6d6d6;
   border-radius: 20px;
+  overflow: hidden;
+}
+.card .visual{
+  width: 100%;
+  aspect-ratio: 1;
+
+}
+.card .visual img {
+  width: 100%;
+  height: 100%;
+  object-fit:contain;
+  border-radius: 8px;
+}
+.card .price{
+  color: red;
+  font-weight: 700;
+}
+.card .name h4{
+  margin: 0;
 }

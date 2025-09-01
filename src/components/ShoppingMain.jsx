@@ -1,15 +1,13 @@
 import { Card } from "./Card";
+export function ShoppingMain({allProducts}){
 
-export function ShoppingMain(){
+
+
+
     return(
         <div className="shopping-main">
             <div className="card-grid-container">
-                <Card></Card>  
-                <Card></Card>  
-                <Card></Card>  
-                <Card></Card>  
-                <Card></Card>  
-                <Card></Card>  
+                {allProducts.map(product => <Card key={product.id} productInfo={product}></Card>)} 
             </div>
         </div>
     )
