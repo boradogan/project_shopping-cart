@@ -2,10 +2,13 @@
 import { useState, useEffect, useMemo } from "react"
 import { ShoppingMain } from "../components/ShoppingMain"
 import { ShoppingSidebar } from "../components/ShoppingSidebar"
+import { useOutletContext } from "react-router"
 export function ShopPage(){
     const [allProducts] = useProducts([])
     const [isSidebarOpen, toggleSidebar] = useSidebar(true);
-    const cartObject = useCart([]);
+    // const cartObject = useCart([]);
+    const cartObject = useOutletContext();
+
 
     const [categoryCheckboxes, handleCategoryCheckbox] = useCategoryCheckBoxes(allProducts);
 
@@ -111,34 +114,5 @@ function isChecked(categoryName, categoriesCheckbox){
 }
 
 
-function useCart(initialValue = []){
-    const [cart, setCart] = useState(initialValue);
-    const newCart = [...cart];
-    function handleCartAmountChange(name, newAmount){
-        for(const index in newCart){
-            if(newCart[index].name === name){
-                const newCartObject = Object.assign(new CartClass, newCart[index]);
-                newCartObject.amount = newAmount;
-                newCart[index] = newCartObject;
-                setCart(newCart);
-                return
-            };
-        }
-        setCart([...newCart, new CartClass(name, newAmount)]);
-        return
-    }
-
-    return {cart, handleCartAmountChange}
-
-}
-
-class CartClass{
-    name
-    amount
-    constructor(name, amount){
-        this.name = name;
-        this.amount= amount;
-    }
 
 
-}
