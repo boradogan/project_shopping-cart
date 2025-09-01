@@ -108,6 +108,9 @@ img {
 
 
 /*  */
+.categories {
+  white-space: nowrap;
+}
 
 
 #shop-page{
@@ -126,16 +129,19 @@ img {
 .card-grid-container{
   display: grid;
   gap: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 .card{
   width: 100%;
-  aspect-ratio: 2/3;
+  aspect-ratio: 3/5;
   padding: 20px;
   box-sizing:border-box;
   background-color: #d6d6d6;
   border-radius: 20px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
 }
 .card .visual{
   width: 100%;
@@ -144,7 +150,7 @@ img {
 }
 .card .visual img {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 1;
   object-fit:contain;
   border-radius: 8px;
 }
@@ -154,4 +160,59 @@ img {
 }
 .card .name h4{
   margin: 0;
+}
+.card .buy-area{
+  margin-top: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.cart-amount{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.ratings{
+  height: 1.5em;
+  width: 40%;
+}
+
+.rating{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+
+}
+/* 1. Main container: This creates the positioning context and sets the size. */
+.rating-star {
+  position: relative;
+  display: inline-block; /* Allows multiple stars to sit side-by-side */
+  width: 24px;  /* Adjust this to your desired star size */
+  height: 24px; /* Adjust this to your desired star size */
+  vertical-align: middle; /* Helps align stars nicely with text */
+}
+
+/* 2. Star containers: Both .empty and .filled are positioned absolutely
+      to stack directly on top of each other. */
+.star {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%; /* Ensure they take up the full space */
+}
+
+/* 3. The magic: The .filled container acts as a clipping mask.
+      By changing its width, you reveal more or less of the filled SVG inside. */
+.star.filled {
+  overflow: hidden; /* This clips the SVG inside it */
+
+}
+
+/* 4. SVG styling: Ensure the SVGs fill their containers without distortion. */
+.star svg {
+  /* We set width and height on the parent, so the SVG just needs to fill it. */
+  width: 24px;
+  height: 24px;
+
 }

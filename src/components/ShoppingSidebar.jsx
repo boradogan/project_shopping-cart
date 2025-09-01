@@ -7,11 +7,13 @@ export function ShoppingSidebar({isOpen, toggle, categoriesCheckboxes = [], hand
 
             <button onClick={toggle}>{isOpen?'Hide':'Show'}</button>
             <div className="categories">
+                {isOpen &&
                 <ul>
                     {categoriesCheckboxes.map(category => <CategoryItem key={category.name} category={category} handleChange={handleChange}></CategoryItem>)}
                 </ul>
-
+                }
             </div>
+
         </div>
     )
 }

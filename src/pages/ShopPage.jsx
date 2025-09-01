@@ -5,12 +5,17 @@ export function ShopPage(){
     const [allProducts] = useProducts()
     const [isSidebarOpen, setSidebarOpen] = useState(true);
 
+    const [categoryCheckboxes, setCategoryCheckboxes] = useState([]);
+    
     const allCategories = useMemo(() => {
         return categoryList(allProducts)
     }, [allProducts])
 
-    const [categoryCheckboxes, setCategoryCheckboxes] = useState([]);
+    const filteredProducts = filterProducts(allProducts, categoryCheckboxes);
 
+
+
+    
     function handleCategoryCheckbox(categoryName, newIsChecked){
         console.log(categoryName, newIsChecked);
         const newCategoryCheckboxes = categoryCheckboxes.map(category => (category.name != categoryName)?category: {...category, isChecked: newIsChecked});
@@ -40,7 +45,7 @@ export function ShopPage(){
                 <ShoppingSidebar isOpen={isSidebarOpen} toggle={toggleSidebar} categoriesCheckboxes={categoryCheckboxes} handleChange={handleCategoryCheckbox}></ShoppingSidebar>            
             </section>
             <section>
-                <ShoppingMain allProducts={allProducts}></ShoppingMain>
+                <ShoppingMain allProducts={filteredProducts}></ShoppingMain>
             </section>
         </div>
     )
@@ -72,4 +77,18 @@ function categoryList(allProducts){
     // returns a unique list of the categories
     const categories = [...new Set(allProducts.map(product => product.category))];
     return categories;
+}
+
+function filterProducts(products, categoriesCheckbox) {
+    return products.filter(product => (
+        isChecked(product.category, categoriesCheckbox)
+    ))
+
+}
+function isChecked(categoryName, categoriesCheckbox){
+    const category = categoriesCheckbox.find(categoryCheckbox => categoryCheckbox.name === categoryName);
+    if(category){
+        return category.isChecked;
+    }
+    return
 }

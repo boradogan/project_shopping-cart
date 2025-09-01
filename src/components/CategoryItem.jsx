@@ -3,8 +3,8 @@ export function CategoryItem({category, handleChange}){
     const isChecked = category.isChecked;
     return(
         <li>
-            <input type="checkbox" checked={isChecked} onChange={() => {handleChange(categoryName, !isChecked)}}/>
-            {categoryName}
+            <input type="checkbox" id={categoryName} checked={isChecked} onChange={() => {handleChange(categoryName, !isChecked)}}/>
+            <label htmlFor={categoryName}>{categoryName}</label>
         </li>
     )
 

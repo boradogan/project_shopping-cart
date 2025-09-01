@@ -1,4 +1,8 @@
+import { useState } from "react";
+import { CartAmount } from "./CartAmount";
+import { RatingComponent } from "./RatingComponent";
 export function Card({productInfo}){
+    const [cartAmount, setCartAmount] = useState(0);
     return (
         <div className="card">
             <div className="visual">
@@ -15,13 +19,15 @@ export function Card({productInfo}){
                 <div className="name">
                     <h4>{productInfo.title}</h4>
                 </div>
-                {/* <div className="description">
-                    {productInfo.description}
-
-                </div> */}
-
-
-
+                
+            </div>
+            <div className="ratings">
+                <RatingComponent rating={productInfo.rating.rate}></RatingComponent>
+                {productInfo.rating.rate}
+            </div>
+            <div className="buy-area">
+                {cartAmount === 0 ? <button onClick={() => {setCartAmount(cartAmount + 1)}}>Add to Cart</button> : <CartAmount amount={cartAmount} setCartAmount={setCartAmount}></CartAmount>}
+                
             </div>
         </div>
     )
