@@ -1,39 +1,14 @@
+
 import { useState, useEffect, useMemo } from "react"
 import { ShoppingMain } from "../components/ShoppingMain"
 import { ShoppingSidebar } from "../components/ShoppingSidebar"
 export function ShopPage(){
-    const [allProducts] = useProducts()
+    const [allProducts] = useProducts([])
     const [isSidebarOpen, setSidebarOpen] = useState(true);
 
-    const [categoryCheckboxes, setCategoryCheckboxes] = useState([]);
-    
-    const allCategories = useMemo(() => {
-        return categoryList(allProducts)
-    }, [allProducts])
+    const [categoryCheckboxes, handleCategoryCheckbox] = useCategoryCheckBoxes(allProducts);
 
     const filteredProducts = filterProducts(allProducts, categoryCheckboxes);
-
-
-
-    
-    function handleCategoryCheckbox(categoryName, newIsChecked){
-        console.log(categoryName, newIsChecked);
-        const newCategoryCheckboxes = categoryCheckboxes.map(category => (category.name != categoryName)?category: {...category, isChecked: newIsChecked});
-        console.log('new Categories')
-        console.log(newCategoryCheckboxes);
-        setCategoryCheckboxes(newCategoryCheckboxes)
-    }
-
-    useEffect(()=>{
-        setCategoryCheckboxes(
-            allCategories.map(categoryName => ({
-                name: categoryName,
-                isChecked:true
-            })
-        )
-        )
-
-    }, [allCategories])
     
     function toggleSidebar(){
         setSidebarOpen(!isSidebarOpen);
@@ -51,8 +26,17 @@ export function ShopPage(){
     )
 }
 
-function useProducts(){
-    const [allProducts, setAllProducts] = useState([]);
+/**
+ * Custom React hook to fetch products from the Fake Store API.
+ * 
+ * @param {Array} initialValue - Initial value for the products state.
+ * @returns {[Array]} - Returns an array containing the list of all products.
+ * 
+ * @example
+ * const [allProducts] = useProducts([]);
+ */
+function useProducts(initialValue){
+    const [allProducts, setAllProducts] = useState(initialValue);
     useEffect(()=>{
         if(allProducts.length > 0){
             return
@@ -69,6 +53,33 @@ function useProducts(){
     }, []);
     return [allProducts]
     
+}
+
+function useCategoryCheckBoxes(allProducts){
+    const [categoryCheckboxes, setCategoryCheckboxes] = useState([]);
+        
+    const allCategories = useMemo(() => {
+        return categoryList(allProducts)
+    }, [allProducts]);
+
+    function handleCategoryCheckbox(categoryName, newIsChecked){
+        const newCategoryCheckboxes = categoryCheckboxes.map(category => (category.name != categoryName)?category: {...category, isChecked: newIsChecked});
+        setCategoryCheckboxes(newCategoryCheckboxes)
+    }
+
+    useEffect(()=>{
+        setCategoryCheckboxes(
+            allCategories.map(categoryName => ({
+                name: categoryName,
+                isChecked:true
+            })
+        )
+        )
+
+    }, [allCategories])
+
+    return [categoryCheckboxes, handleCategoryCheckbox]
+
 }
 
 
