@@ -1,8 +1,11 @@
-export function CartPage(){
+export function CartPage(cartObject){
+    const {cart} = cartObject;
     return (
         <div id="cart-page">
             <h2>Cart</h2>
-            <span>This is the cart page</span>
+            {cart && cart.map((cartItem => (
+                <li key={cartItem.name}>{cartItem.name}</li>
+            )))}
         </div>
     )
 }

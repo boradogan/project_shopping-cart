@@ -117,14 +117,14 @@ function useCart(initialValue = []){
     function handleCartAmountChange(name, newAmount){
         for(const index in newCart){
             if(newCart[index].name === name){
-                const newCartObject = Object.assign(new CartObject, newCart[index]);
+                const newCartObject = Object.assign(new CartClass, newCart[index]);
                 newCartObject.amount = newAmount;
                 newCart[index] = newCartObject;
                 setCart(newCart);
                 return
             };
         }
-        setCart([...newCart, new CartObject(name, newAmount)]);
+        setCart([...newCart, new CartClass(name, newAmount)]);
         return
     }
 
@@ -132,7 +132,7 @@ function useCart(initialValue = []){
 
 }
 
-class CartObject{
+class CartClass{
     name
     amount
     constructor(name, amount){
