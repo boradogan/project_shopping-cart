@@ -1,8 +1,8 @@
-export function CartAmount({amount, setCartAmount}){
+export function CartAmount({amount, handleCartAmountHelper}){
 
     function handleDecrease(){
         if(amount >= 0) {
-            setCartAmount(amount - 1);
+            handleCartAmountHelper(amount - 1);
         }
     }
 
@@ -14,7 +14,7 @@ export function CartAmount({amount, setCartAmount}){
             </div>
             <span>{amount}</span>
             <div className="plus">
-                <button onClick={() => {setCartAmount(amount + 1)}}>Increase</button>
+                <button onClick={() => {handleCartAmountHelper(amount + 1)}}>Increase</button>
 
             </div>
         </div>

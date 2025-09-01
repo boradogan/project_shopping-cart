@@ -1,8 +1,18 @@
 import { useState } from "react";
 import { CartAmount } from "./CartAmount";
 import { RatingComponent } from "./RatingComponent";
-export function Card({productInfo}){
-    const [cartAmount, setCartAmount] = useState(0);
+export function Card({productInfo, cartObject}){
+    const {cart, handleCartAmountChange} = cartObject;
+    const matchedCartElement = cart.find(cartElement => cartElement.name === productInfo.title);
+    const cartAmount = matchedCartElement? matchedCartElement.amount:0;
+
+    function handleAddToCartButton(){
+        handleCartAmountChange(productInfo.title, 1);
+    }
+    function handleCartAmountHelper(newAmount){
+        handleCartAmountChange(productInfo.title, newAmount);
+    }
+    
     return (
         <div className="card">
             <div className="visual">
@@ -26,7 +36,7 @@ export function Card({productInfo}){
                 {productInfo.rating.rate}
             </div>
             <div className="buy-area">
-                {cartAmount === 0 ? <button onClick={() => {setCartAmount(cartAmount + 1)}}>Add to Cart</button> : <CartAmount amount={cartAmount} setCartAmount={setCartAmount}></CartAmount>}
+                {cartAmount === 0 ? <button onClick={handleAddToCartButton}>Add to Cart</button> : <CartAmount amount={cartAmount} handleCartAmountHelper={handleCartAmountHelper}></CartAmount>}
                 
             </div>
         </div>

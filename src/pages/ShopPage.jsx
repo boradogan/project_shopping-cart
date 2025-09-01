@@ -4,26 +4,32 @@ import { ShoppingMain } from "../components/ShoppingMain"
 import { ShoppingSidebar } from "../components/ShoppingSidebar"
 export function ShopPage(){
     const [allProducts] = useProducts([])
-    const [isSidebarOpen, setSidebarOpen] = useState(true);
+    const [isSidebarOpen, toggleSidebar] = useSidebar(true);
+    const cartObject = useCart([]);
 
     const [categoryCheckboxes, handleCategoryCheckbox] = useCategoryCheckBoxes(allProducts);
 
     const filteredProducts = filterProducts(allProducts, categoryCheckboxes);
     
-    function toggleSidebar(){
-        setSidebarOpen(!isSidebarOpen);
-    }
-
     return (
         <div id="shop-page"className={isSidebarOpen?'sidebar-open':'sidebar-closed'}>
             <section>
                 <ShoppingSidebar isOpen={isSidebarOpen} toggle={toggleSidebar} categoriesCheckboxes={categoryCheckboxes} handleChange={handleCategoryCheckbox}></ShoppingSidebar>            
             </section>
             <section>
-                <ShoppingMain allProducts={filteredProducts}></ShoppingMain>
+                <ShoppingMain allProducts={filteredProducts} cartObject={cartObject}></ShoppingMain>
             </section>
         </div>
     )
+}
+
+function useSidebar(initialValue){
+    const [isSidebarOpen, setSidebarOpen] = useState(initialValue);
+    function toggleSidebar(){
+        setSidebarOpen(!isSidebarOpen);
+    }
+    return [isSidebarOpen, toggleSidebar]
+
 }
 
 /**
@@ -102,4 +108,37 @@ function isChecked(categoryName, categoriesCheckbox){
         return category.isChecked;
     }
     return
+}
+
+
+function useCart(initialValue = []){
+    const [cart, setCart] = useState(initialValue);
+    const newCart = [...cart];
+    function handleCartAmountChange(name, newAmount){
+        for(const index in newCart){
+            if(newCart[index].name === name){
+                const newCartObject = Object.assign(new CartObject, newCart[index]);
+                newCartObject.amount = newAmount;
+                newCart[index] = newCartObject;
+                setCart(newCart);
+                return
+            };
+        }
+        setCart([...newCart, new CartObject(name, newAmount)]);
+        return
+    }
+
+    return {cart, handleCartAmountChange}
+
+}
+
+class CartObject{
+    name
+    amount
+    constructor(name, amount){
+        this.name = name;
+        this.amount= amount;
+    }
+
+
 }
