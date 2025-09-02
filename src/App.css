@@ -222,8 +222,13 @@ img {
 
 /* 
  */
+ .cart-item{
+   display: grid;
+   grid-template-columns: 1fr 2fr;
+  margin: 15px 0;
+ }
  .cart-image{
-  width: 200px;
+  width: 100%
  }
 
  .cart-image img {
@@ -231,4 +236,24 @@ img {
   aspect-ratio: 1;
   object-fit:contain;
   border-radius: 8px;
+}
+
+.cart-info .price {
+    color: red;
+  font-weight: 700;
+}
+.cart-info .amount{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.cart-total{
+  display: inline-block;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid blue;
+  margin: 10px 0;
+}
+.cart-total button {
+  margin: 0 10px;
 }

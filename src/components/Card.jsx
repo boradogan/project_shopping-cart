@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { CartAmount } from "./CartAmount";
 import { RatingComponent } from "./RatingComponent";
+import priceConverter from "../utils/priceConverter";
 export function Card({productInfo, cartObject}){
     const {cart, handleCartAmountChange} = cartObject;
     const matchedCartElement = cart.find(cartElement => cartElement.name === productInfo.title);
@@ -43,17 +44,3 @@ export function Card({productInfo, cartObject}){
     )
 }
 
-function priceConverter(price){
-
-    const parts = price.toString().split('.');
-    if (parts.length === 1) {
-        return `${parts[0]}.-`;
-    } else if (parts[1].length === 1) {
-        return `${parts[0]}.${parts[1]}0`;
-    } else if (parts[1].length === 2) {
-        return `${parts[0]}.${parts[1]}`;
-    } else {
-        return `${parts[0]}.${parts[1].slice(0,2)}`;
-    }
-
-}
