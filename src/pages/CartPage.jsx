@@ -1,6 +1,6 @@
 import { useOutletContext } from "react-router";
 export function CartPage(){
-    const cartObject = useOutletContext();
+    const {cartObject} = useOutletContext();
     const {cart} = cartObject;
     return (
         <div id="cart-page">
