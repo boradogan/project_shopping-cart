@@ -30,6 +30,13 @@ function useCart(initialValue = []){
     function handleCartAmountChange(name, newAmount){
         for(const index in newCart){
             if(newCart[index].name === name){
+              if(newAmount === 0){
+                console.log('thte amount is 0')
+                newCart.splice(index, 1);
+                setCart(newCart);
+                return
+
+              }
                 const newCartObject = Object.assign(new CartClass, newCart[index]);
                 newCartObject.amount = newAmount;
                 newCart[index] = newCartObject;

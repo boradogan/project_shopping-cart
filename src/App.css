@@ -216,3 +216,19 @@ img {
   height: 24px;
 
 }
+
+
+
+
+/* 
+ */
+ .cart-image{
+  width: 200px;
+ }
+
+ .cart-image img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit:contain;
+  border-radius: 8px;
+}
