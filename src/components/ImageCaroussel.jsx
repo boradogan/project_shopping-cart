@@ -2,10 +2,50 @@ import { useEffect, useRef, useState } from "react"
 export function ImageCaroussel(){
 
     const [currentIndex, setCurrentIndex] = useState(0)
+    const [isTransitioning, setIsTransitioning] = useState(true);
+    const [isAnimating, setIsAnimating] = useState(false);
+    console.log('current index', currentIndex);
+    console.log('isAnimating', isAnimating);
+    console.log('isTransitioning', isTransitioning);
+    console.log('render happening at', new Date().toISOString());
+
+    useEffect(()=>{
+        let timeoutId;
+
+        if(currentIndex === 6){
+            timeoutId = setTimeout(() => {
+                setIsTransitioning(false);
+                setCurrentIndex(0);
+                setTimeout(() => {
+                    
+                    setIsAnimating(false)
+                    setIsTransitioning(true);
+                }, 50);
+                    
+                
+            }, 500);
+
+        } else if (currentIndex > 0) {
+            timeoutId = setTimeout(() => {
+                setIsAnimating(false);
+                
+            }, 500);
+        }
+        return () => {
+            clearTimeout(timeoutId)
+        }
+
+    } ,[currentIndex])
+
+    
     const goToNext = () => {
-        setCurrentIndex(prevIndex => 
-            prevIndex === 6 - 1 ? 0 : prevIndex + 1
-        );
+        if(isAnimating){
+            return
+        }
+        console.log('goToNext called at', new Date().toISOString());
+        setIsAnimating(true);
+
+        setCurrentIndex(currentIndex === 6? 0: currentIndex + 1);
     };
 
     const goToPrevious = () => {
@@ -14,7 +54,8 @@ export function ImageCaroussel(){
         );
     };
     const containerStyle = {
-        transform: `translateX(-${currentIndex * 25}%)`
+        transform: `translateX(-${currentIndex * 25}%)`,
+        transition: isTransitioning? 'transform 0.5s ease-out ' : 'none'
     };
    
     return(
@@ -59,6 +100,19 @@ export function ImageCaroussel(){
                 </div>
                 <div className="caroussel-item-big">
                     <img src="https://placehold.co/600" alt="" />
+                </div>
+                <div className="caroussel-item-big">
+                    <img src="https://placehold.co/100" alt="" />
+                    
+                </div>
+                <div className="caroussel-item-big">
+                    <img src="https://placehold.co/200" alt="" />
+                </div>
+                <div className="caroussel-item-big">
+                    <img src="https://placehold.co/300" alt="" />
+                </div>
+                <div className="caroussel-item-big">
+                    <img src="https://placehold.co/400" alt="" />
                 </div>
 
             </div>
