@@ -1,5 +1,7 @@
 import { Link } from "react-router"
-export function Navbar(){
+export function Navbar({cartList}){
+    const totalItems = cartList.reduce((acc, cartItem) => acc + cartItem.amount, 0);
+    console.log('Total number of items -> ', totalItems)
 
     return (
         <>
@@ -18,15 +20,33 @@ export function Navbar(){
 
                 <div className="nav-items">
                     <ul>
+                        <li>
+
                         <Link to={'/'}>
-                            <li>Home</li>
+                            Home
                         </Link>
+                        </li>
+                        <li>
+
                         <Link to={'/shop'}>
-                            <li>Shop</li>
+                            Shop
                         </Link>
+                        </li>
+
+                        <li>
+
                         <Link to={'/cart'}>
-                        <li>Cart</li>
+                            <div className="cart-link">
+                                <span className="total-items">
+                                    {totalItems>0?totalItems: null}
+                                </span>
+                                <span>
+                                    Cart
+                                </span> 
+
+                            </div>
                         </Link>
+                        </li>
 
                     </ul>
                 </div>

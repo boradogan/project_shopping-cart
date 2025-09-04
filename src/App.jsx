@@ -12,7 +12,7 @@ function App() {
   return (
     <>
       <header>
-        <Navbar></Navbar>
+        <Navbar cartList={cartObject.cart}></Navbar>
       </header>
       <main>
         <Outlet context={contextValue}></Outlet>
