@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react"
-export function ImageCaroussel(){
-
-    const [currentIndex, setCurrentIndex] = useState(0)
+export function ImageCaroussel({featuredProducts}){
+    const CAROUSSEL_SIZE = 4;
+    
+    const [currentIndex, setCurrentIndex] = useState(CAROUSSEL_SIZE)
     const [isTransitioning, setIsTransitioning] = useState(true);
     const [isAnimating, setIsAnimating] = useState(false);
     console.log('current index', currentIndex);
@@ -9,13 +10,27 @@ export function ImageCaroussel(){
     console.log('isTransitioning', isTransitioning);
     console.log('render happening at', new Date().toISOString());
 
+
+    const extendedFeaturedProducts = [...featuredProducts.slice(-4), ...featuredProducts, ...featuredProducts.slice(0, CAROUSSEL_SIZE)];
+
     useEffect(()=>{
         let timeoutId;
-
-        if(currentIndex === 6){
+        if(currentIndex === 0){
             timeoutId = setTimeout(() => {
                 setIsTransitioning(false);
-                setCurrentIndex(0);
+                setCurrentIndex(featuredProducts.length);
+                setTimeout(() => {
+                    
+                    setIsAnimating(false)
+                    setIsTransitioning(true);
+                }, 50);
+                    
+                
+            }, 500);
+        } else if(currentIndex === (featuredProducts.length + CAROUSSEL_SIZE)){
+            timeoutId = setTimeout(() => {
+                setIsTransitioning(false);
+                setCurrentIndex(CAROUSSEL_SIZE);
                 setTimeout(() => {
                     
                     setIsAnimating(false)
@@ -25,7 +40,7 @@ export function ImageCaroussel(){
                 
             }, 500);
 
-        } else if (currentIndex > 0) {
+        } else {
             timeoutId = setTimeout(() => {
                 setIsAnimating(false);
                 
@@ -45,10 +60,14 @@ export function ImageCaroussel(){
         console.log('goToNext called at', new Date().toISOString());
         setIsAnimating(true);
 
-        setCurrentIndex(currentIndex === 6? 0: currentIndex + 1);
+        setCurrentIndex(currentIndex === featuredProducts.length + CAROUSSEL_SIZE? 0: currentIndex + 1);
     };
 
     const goToPrevious = () => {
+        if(isAnimating){
+            return
+        }
+        setIsAnimating(true);
         setCurrentIndex(prevIndex => 
             prevIndex === 0 ? 6 - 1 : prevIndex - 1
         );
@@ -61,7 +80,7 @@ export function ImageCaroussel(){
     return(
         <div className="image-caroussel">
             
-            <div className="button-wrapper">
+            {/* <div className="button-wrapper">
                 <ul>
                     <li>
                         <button onClick={goToPrevious}></button>
@@ -74,46 +93,22 @@ export function ImageCaroussel(){
                     </li>
                 </ul>
 
-            </div>
+            </div> */}
             <div className="right direct">
-
+                <button onClick={goToNext}>{'>'}</button>
             </div>
             <div className="left direct">
+                <button onClick={goToPrevious}>{'<'}</button>
 
             </div>
             <div className="caroussel-image-container"  style={containerStyle}>
-                <div className="caroussel-item-big">
-                    <img src="https://placehold.co/100" alt="" />
+                {extendedFeaturedProducts.map((item, index) => (
+                    <div key={index} className="caroussel-item-big">
+                        <img src={item.image} alt="" />
                     
-                </div>
-                <div className="caroussel-item-big">
-                    <img src="https://placehold.co/200" alt="" />
-                </div>
-                <div className="caroussel-item-big">
-                    <img src="https://placehold.co/300" alt="" />
-                </div>
-                <div className="caroussel-item-big">
-                    <img src="https://placehold.co/400" alt="" />
-                </div>
-                <div className="caroussel-item-big">
-                    <img src="https://placehold.co/500" alt="" />
-                </div>
-                <div className="caroussel-item-big">
-                    <img src="https://placehold.co/600" alt="" />
-                </div>
-                <div className="caroussel-item-big">
-                    <img src="https://placehold.co/100" alt="" />
-                    
-                </div>
-                <div className="caroussel-item-big">
-                    <img src="https://placehold.co/200" alt="" />
-                </div>
-                <div className="caroussel-item-big">
-                    <img src="https://placehold.co/300" alt="" />
-                </div>
-                <div className="caroussel-item-big">
-                    <img src="https://placehold.co/400" alt="" />
-                </div>
+                    </div>
+                ))}
+
 
             </div>
             
