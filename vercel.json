@@ -7,7 +7,7 @@
   ],
   "headers": [
     {
-      "source": "/(.*).mp3",
+      "source": "/(.*).(mp3|js|css)",
       "headers": [
         {
           "key": "Cache-Control",
